@@ -84,9 +84,13 @@ nav .container {
     color: var(--text-primary);
 }
 
-/* Mobile nav toggle - hidden on desktop */
+/* Mobile nav toggle - always visually hidden but functional */
 .nav-toggle {
-    display: none;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-toggle-label {
@@ -664,6 +668,42 @@ a.talk-title:hover {
 
 .book-info a:hover {
     color: var(--accent-hover);
+}
+
+/* Section Subheader */
+.section-subheader {
+    margin-top: 48px;
+    margin-bottom: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+
+.section-subheader h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Book cover placeholder for missing images */
+.book-cover-placeholder {
+    width: 120px;
+    height: 156px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.book-cover-placeholder span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 /* Connect Section */
