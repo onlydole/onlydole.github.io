@@ -84,6 +84,59 @@ nav .container {
     color: var(--text-primary);
 }
 
+/* Mobile nav toggle - hidden on desktop */
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: -10px;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: var(--text-primary);
+    height: 2px;
+    width: 24px;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    content: '';
+    position: absolute;
+}
+
+.nav-toggle-label span::before {
+    top: -7px;
+}
+
+.nav-toggle-label span::after {
+    top: 7px;
+}
+
+/* Hamburger to X animation */
+.nav-toggle:checked + .nav-toggle-label span {
+    background: transparent;
+}
+
+.nav-toggle:checked + .nav-toggle-label span::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-toggle:checked + .nav-toggle-label span::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
 /* Hero Section */
 .hero {
     min-height: 100vh;
@@ -719,8 +772,40 @@ footer .philosophy {
 }
 
 @media (max-width: 640px) {
+    .nav-toggle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .nav-links {
-        gap: 20px;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(15, 15, 15, 0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-toggle:checked ~ .nav-links {
+        max-height: 300px;
+        padding: 16px 0;
+    }
+
+    .nav-links a {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+
+    .nav-links a:hover {
+        background: var(--bg-secondary);
     }
 
     .credential {
