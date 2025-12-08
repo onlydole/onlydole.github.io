@@ -109,7 +109,7 @@ nav .container {
     width: 24px;
     border-radius: 2px;
     position: relative;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, top 0.3s ease;
 }
 
 .nav-toggle-label span::before,
@@ -249,7 +249,7 @@ nav .container {
     font-size: 15px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s, color 0.2s;
 }
 
 .hero-cta .primary {
@@ -655,7 +655,7 @@ section:last-of-type {
     border-radius: 8px;
     padding: 20px 24px;
     position: relative;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
