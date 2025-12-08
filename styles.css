@@ -858,7 +858,7 @@ section:last-of-type {
 
     .timeline-talk.has-video:hover .talk-video-preview,
     .timeline-talk.has-video:focus-within .talk-video-preview {
-        max-height: 250px;
+        max-height: 500px;
         transform: none;
     }
 }
@@ -933,7 +933,6 @@ section:last-of-type {
         content: '';
         position: absolute;
         inset: 0;
-        z-index: 1;
     }
 
     /* Completely remove preview elements from the document flow on mobile */
