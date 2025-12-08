@@ -109,7 +109,7 @@ nav .container {
     width: 24px;
     border-radius: 2px;
     position: relative;
-    transition: transform 0.3s ease, top 0.3s ease;
+    transition: transform 0.3s ease, top 0.3s ease, background 0.3s ease;
 }
 
 .nav-toggle-label span::before,
@@ -667,7 +667,7 @@ section:last-of-type {
     width: 40px;
     height: 2px;
     background: var(--border);
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, left 0.3s ease, width 0.3s ease;
 }
 
 .timeline-talk:hover {
@@ -678,10 +678,11 @@ section:last-of-type {
 
 .timeline-talk:hover::before {
     background: var(--accent);
+    left: -44px;
+    width: 44px;
 }
 
 .timeline-talk.has-video {
-    cursor: pointer;
     position: relative;
 }
 
