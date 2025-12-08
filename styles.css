@@ -760,9 +760,9 @@ section:last-of-type {
     padding: 12px;
 }
 
-.play-icon-audio svg {
-    width: 32px !important;
-    height: 32px !important;
+.talk-video-preview .play-icon-audio svg {
+    width: 32px;
+    height: 32px;
     color: white;
 }
 
