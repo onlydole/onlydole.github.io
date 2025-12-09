@@ -5,9 +5,9 @@
     --text-primary: #e8e6e3;
     --text-secondary: #a8a5a0;
     --text-muted: #8f8b87;
-    --accent: #c45c4d;
-    --accent-hover: #d66b5c;
-    --accent-glow: rgba(196, 92, 77, 0.4);
+    --accent: #d4675a;
+    --accent-hover: #e07568;
+    --accent-glow: rgba(212, 103, 90, 0.4);
     --border: #2a2a2a;
     --font-display: 'Instrument Serif', Georgia, serif;
     --font-body: 'Outfit', -apple-system, sans-serif;
@@ -168,7 +168,7 @@ nav .container {
     right: 10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(196, 92, 77, 0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(212, 103, 90, 0.1) 0%, transparent 60%);
     pointer-events: none;
     z-index: 1;
 }
@@ -675,7 +675,7 @@ section:last-of-type {
 .timeline-talk:hover {
     border-color: var(--accent);
     transform: translateX(4px);
-    box-shadow: 0 4px 20px rgba(196, 92, 77, 0.15);
+    box-shadow: 0 4px 20px rgba(212, 103, 90, 0.15);
 }
 
 .timeline-talk:hover::before {
@@ -742,7 +742,7 @@ section:last-of-type {
 }
 
 .talk-video-preview:hover .play-icon svg path:first-child {
-    fill: #c45c4d;
+    fill: #d4675a;
     fill-opacity: 1;
 }
 
@@ -824,7 +824,7 @@ section:last-of-type {
 }
 
 .talk-type-keynote {
-    background: rgba(196, 92, 77, 0.2);
+    background: rgba(212, 103, 90, 0.2);
     color: #e8867a;
 }
 
