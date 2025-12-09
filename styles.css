@@ -4,7 +4,7 @@
     --bg-tertiary: #1a1a1a;
     --text-primary: #e8e6e3;
     --text-secondary: #a8a5a0;
-    --text-muted: #6b6966;
+    --text-muted: #8f8b87;
     --accent: #c45c4d;
     --accent-hover: #d66b5c;
     --accent-glow: rgba(196, 92, 77, 0.4);
@@ -450,7 +450,8 @@ section:last-of-type {
 
 .about-content a {
     color: var(--accent);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
     transition: color 0.2s;
 }
 
@@ -492,7 +493,8 @@ section:last-of-type {
 
 .credential-value a {
     color: var(--accent);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
     transition: color 0.2s;
 }
 
@@ -573,13 +575,13 @@ section:last-of-type {
 
 .speaking-intro a {
     color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
 }
 
 .speaking-intro a:hover {
-    border-bottom-color: var(--accent);
+    color: var(--accent-hover);
 }
 
 /* Timeline */
@@ -822,23 +824,23 @@ section:last-of-type {
 }
 
 .talk-type-keynote {
-    background: rgba(196, 92, 77, 0.15);
-    color: var(--accent);
+    background: rgba(196, 92, 77, 0.2);
+    color: #e8867a;
 }
 
 .talk-type-video {
-    background: rgba(100, 150, 200, 0.15);
-    color: #6496c8;
+    background: rgba(100, 150, 200, 0.2);
+    color: #8ab4de;
 }
 
 .talk-type-panel {
-    background: rgba(150, 100, 200, 0.15);
-    color: #9664c8;
+    background: rgba(150, 100, 200, 0.2);
+    color: #b88ade;
 }
 
 .talk-type-podcast {
-    background: rgba(100, 200, 150, 0.15);
-    color: #64c896;
+    background: rgba(100, 200, 150, 0.2);
+    color: #8adeb4;
 }
 
 /* Timeline Responsive */
@@ -976,7 +978,7 @@ section:last-of-type {
 
 .book-info .publisher {
     font-size: 14px;
-    color: var(--accent);
+    color: #e8867a;
     margin-bottom: 12px;
 }
 

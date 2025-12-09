@@ -46,21 +46,33 @@
         <link rel="icon" href="favicon.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="favicon.png" />
 
+        <!-- Preload LCP image -->
+        <link rel="preload" as="image" href="images/taylor-web.webp" type="image/webp" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" />
         <link
             href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
             rel="stylesheet"
+            media="print"
+            onload="this.media='all'"
         />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <nav>
             <div class="container">
                 <a href="#" class="nav-brand">Taylor Dolezal</a>
-                <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-                <label for="nav-toggle" class="nav-toggle-label">
-                    <span></span>
+                <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu" />
+                <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation menu">
+                    <span aria-hidden="true"></span>
                 </label>
                 <div class="nav-links">
                     <a href="#about">About</a>
@@ -72,6 +84,7 @@
             </div>
         </nav>
 
+        <main>
         <header class="hero">
             <div class="hero-container">
                 <div class="hero-content">
@@ -87,7 +100,7 @@
                                 >Watch my talks</a
                             >
                             <a href="#connect" class="secondary"
-                                >Get in touch →</a
+                                >Connect with me →</a
                             >
                         </div>
                     </div>
@@ -103,6 +116,9 @@
                                     src="images/taylor-web.jpg"
                                     alt="Taylor Dolezal"
                                     class="hero-image"
+                                    width="340"
+                                    height="440"
+                                    fetchpriority="high"
                                 />
                             </picture>
                         </div>
@@ -292,7 +308,7 @@
                             target="_blank" rel="noopener noreferrer"
                             class="work-item-link"
                         >
-                            Learn more
+                            About the End User TAB
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -392,7 +408,7 @@
                 <p class="speaking-intro">
                     I speak about open source sustainability, cloud native
                     infrastructure, and building healthy engineering teams.
-                    <a href="https://fantastical.app/onlydole/schedule" target="_blank" rel="noopener noreferrer">Get in touch</a> to discuss keynotes, panels, and workshops.
+                    <a href="https://fantastical.app/onlydole/schedule" target="_blank" rel="noopener noreferrer">Schedule a call</a> to discuss keynotes, panels, and workshops.
                 </p>
 
                 <div class="timeline">
@@ -599,6 +615,8 @@
                             src="images/terraform-cookbook.jpeg"
                             alt="Terraform Cookbook"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -639,6 +657,8 @@
                         src="images/dosu-logo.png"
                         alt="Dosu"
                         class="book-cover-img"
+                        width="120"
+                        height="120"
                     />
                     <div class="book-info">
                         <h3>Dosu Blog</h3>
@@ -682,6 +702,8 @@
                             src="images/engineering-leader.jpeg"
                             alt="The Engineering Leader"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -725,6 +747,8 @@
                             src="images/learning-github-actions.jpeg"
                             alt="Learning GitHub Actions"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -768,6 +792,8 @@
                             src="images/terraform-up-running.jpeg"
                             alt="Terraform: Up and Running"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -811,6 +837,8 @@
                             src="images/hugo-in-action.jpeg"
                             alt="Hugo in Action"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -854,6 +882,8 @@
                             src="images/iac-patterns.jpeg"
                             alt="Infrastructure as Code, Patterns and Practices"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -897,6 +927,8 @@
                             src="images/cloud-run.jpeg"
                             alt="Building Serverless Applications with Google Cloud Run"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -940,6 +972,8 @@
                             src="images/practical-data-science.jpeg"
                             alt="Practical Data Science with R"
                             class="book-cover-img"
+                            width="120"
+                            height="157"
                         />
                     </picture>
                     <div class="book-info">
@@ -1061,6 +1095,7 @@
                 </div>
             </div>
         </section>
+        </main>
 
         <footer>
             <div class="container">
