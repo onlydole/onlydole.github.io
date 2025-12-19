@@ -66,6 +66,9 @@
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
+        <!-- Scroll Progress Indicator -->
+        <div class="scroll-progress" id="scrollProgress"></div>
+        
         <nav>
             <div class="container">
                 <a href="#" class="nav-brand">Taylor Dolezal</a>
@@ -1105,5 +1108,64 @@
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8765a31b06cf419e80cdd7fbba61a348"}'></script>
         <!-- End Cloudflare Web Analytics -->
+        
+        <!-- Scroll Progress & Animations -->
+        <script>
+            // Scroll progress indicator
+            window.addEventListener('scroll', () => {
+                const scrollProgress = document.getElementById('scrollProgress');
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                scrollProgress.style.width = scrolled + '%';
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all major content elements
+            document.addEventListener('DOMContentLoaded', () => {
+                const animateOnScroll = document.querySelectorAll('.work-item, .timeline-talk, .book-feature, .credential');
+                animateOnScroll.forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(el);
+                });
+            });
+
+            // Active nav link highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.style.color = '';
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.style.color = 'var(--accent)';
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

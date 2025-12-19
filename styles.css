@@ -149,6 +149,12 @@ nav .container {
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #0a0a0a 0%, #141414 50%, #0d0d0d 100%);
+    animation: hero-gradient 20s ease infinite;
+}
+
+@keyframes hero-gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .hero::before {
@@ -168,9 +174,15 @@ nav .container {
     right: 10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(212, 103, 90, 0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(212, 103, 90, 0.15) 0%, transparent 60%);
     pointer-events: none;
     z-index: 1;
+    animation: glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
 }
 
 .hero-container {
@@ -201,6 +213,18 @@ nav .container {
     line-height: 1;
     color: var(--text-primary);
     margin-bottom: 16px;
+    animation: fade-in-up 0.8s ease-out;
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-role {
@@ -208,6 +232,7 @@ nav .container {
     color: var(--text-muted);
     font-weight: 400;
     margin-bottom: 40px;
+    animation: fade-in-up 0.8s ease-out 0.2s both;
 }
 
 .hero-role a {
@@ -229,6 +254,7 @@ nav .container {
     color: var(--text-secondary);
     margin-bottom: 48px;
     max-width: 500px;
+    animation: fade-in-up 0.8s ease-out 0.4s both;
 }
 
 .hero h1 em {
@@ -240,6 +266,7 @@ nav .container {
     display: flex;
     gap: 24px;
     align-items: center;
+    animation: fade-in-up 0.8s ease-out 0.6s both;
 }
 
 .hero-cta a {
@@ -256,12 +283,32 @@ nav .container {
     padding: 16px 32px;
     background: var(--accent);
     color: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-cta .primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.hero-cta .primary:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .hero-cta .primary:hover {
     background: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(212, 165, 116, 0.3);
+    box-shadow: 0 8px 24px var(--accent-glow), 0 0 40px rgba(212, 103, 90, 0.2);
 }
 
 .hero-cta .secondary {
@@ -282,6 +329,12 @@ nav .container {
     position: relative;
     order: 2;
     justify-self: end;
+    animation: fade-in 1s ease-out 0.3s both;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* Glitch offset layers */
@@ -406,6 +459,23 @@ nav .container {
 section {
     padding: 80px 0;
     border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    transform: translateX(-50%);
+    opacity: 0.5;
+}
+
+section:first-of-type::before {
+    display: none;
 }
 
 section:last-of-type {
@@ -514,12 +584,30 @@ section:last-of-type {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 8px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.work-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    transition: height 0.4s ease;
+}
+
+.work-item:hover::before {
+    height: 100%;
 }
 
 .work-item:hover {
-    border-color: var(--text-muted);
-    transform: translateY(-2px);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(212, 103, 90, 0.15), 0 0 60px rgba(212, 103, 90, 0.08);
 }
 
 .work-item-header {
@@ -638,11 +726,22 @@ section:last-of-type {
     border: 2px solid var(--bg-primary);
     box-shadow: 0 0 0 2px var(--accent);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        box-shadow: 0 0 0 2px var(--accent);
+    }
+    50% {
+        box-shadow: 0 0 0 4px var(--accent), 0 0 12px var(--accent);
+    }
 }
 
 .timeline-year-group:hover .timeline-dot {
     transform: scale(1.3);
     box-shadow: 0 0 0 4px var(--accent), 0 0 20px var(--accent);
+    animation: none;
 }
 
 .timeline-talks {
@@ -959,6 +1058,17 @@ section:last-of-type {
     border: 1px solid var(--border);
     border-radius: 8px;
     margin-bottom: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.book-feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: var(--text-muted);
+}
+
+.book-feature:hover .book-cover-img {
+    transform: scale(1.05) rotate(-2deg);
 }
 
 .book-cover-img {
@@ -966,6 +1076,7 @@ section:last-of-type {
     height: auto;
     border-radius: 4px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .book-info h3 {
@@ -1066,18 +1177,43 @@ section:last-of-type {
     font-weight: 500;
     color: var(--text-primary);
     text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.connect-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 103, 90, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.connect-link:hover::before {
+    left: 100%;
 }
 
 .connect-link:hover {
-    border-color: var(--text-muted);
+    border-color: var(--accent);
     background: var(--bg-tertiary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 103, 90, 0.2);
+}
+
+.connect-link:hover svg {
+    color: var(--accent);
+    transform: scale(1.1);
 }
 
 .connect-link svg {
     width: 18px;
     height: 18px;
     color: var(--text-secondary);
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 /* Footer */
@@ -1218,5 +1354,80 @@ footer .philosophy {
     .hero-cta {
         flex-direction: column;
         gap: 16px;
+    }
+}
+
+/* Scroll Progress Indicator */
+.scroll-progress {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    z-index: 99;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Link Hover Animations */
+a {
+    position: relative;
+}
+
+.about-content a,
+.work-item-link,
+.book-info a {
+    position: relative;
+    display: inline-block;
+}
+
+.about-content a::after,
+.work-item-link::after,
+.book-info a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.about-content a:hover::after,
+.work-item-link:hover::after,
+.book-info a:hover::after {
+    width: 100%;
+}
+
+/* Smooth entrance for sections */
+@keyframes section-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-header {
+    animation: section-fade-in 0.8s ease-out;
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .scroll-progress {
+        transition: none;
     }
 }
