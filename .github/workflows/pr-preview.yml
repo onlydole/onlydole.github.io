@@ -8,7 +8,9 @@ on:
       - synchronize
       - closed
 
-concurrency: preview-${{ github.ref }}
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   deploy-preview:
