@@ -1421,6 +1421,14 @@ footer .philosophy {
     -webkit-text-fill-color: transparent;
 }
 
+/* Fallback for high contrast mode or if gradient doesn't render */
+@supports not (background-clip: text) {
+    footer .philosophy {
+        background: none;
+        -webkit-text-fill-color: var(--text-secondary);
+    }
+}
+
 /* Responsive */
 @media (max-width: 1000px) {
     .hero-container {

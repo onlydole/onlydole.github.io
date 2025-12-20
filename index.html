@@ -1105,6 +1105,9 @@
         
         <!-- Scroll-triggered animations -->
         <script>
+            // Configuration
+            const MAX_STAGGER_DELAY = 5;
+            
             // Intersection Observer for scroll animations
             const observerOptions = {
                 threshold: 0.1,
@@ -1119,49 +1122,29 @@
                 });
             }, observerOptions);
             
+            // Helper to add animation classes with stagger
+            const addAnimationClasses = (elements) => {
+                elements.forEach((el, index) => {
+                    el.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, MAX_STAGGER_DELAY)}`);
+                    observer.observe(el);
+                });
+            };
+            
             // Observe all sections and animatable elements
             document.addEventListener('DOMContentLoaded', () => {
-                // Add animation classes to elements
+                // Add animation classes to sections
                 const sections = document.querySelectorAll('section');
                 sections.forEach(section => {
                     section.classList.add('animate-on-scroll');
                     observer.observe(section);
                 });
                 
-                // Stagger work items
-                const workItems = document.querySelectorAll('.work-item');
-                workItems.forEach((item, index) => {
-                    item.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
-                    observer.observe(item);
-                });
-                
-                // Stagger credentials
-                const credentials = document.querySelectorAll('.credential');
-                credentials.forEach((cred, index) => {
-                    cred.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
-                    observer.observe(cred);
-                });
-                
-                // Book features
-                const books = document.querySelectorAll('.book-feature');
-                books.forEach((book, index) => {
-                    book.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
-                    observer.observe(book);
-                });
-                
-                // Timeline groups
-                const timelineGroups = document.querySelectorAll('.timeline-year-group');
-                timelineGroups.forEach((group, index) => {
-                    group.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
-                    observer.observe(group);
-                });
-                
-                // Connect links
-                const connectLinks = document.querySelectorAll('.connect-link');
-                connectLinks.forEach((link, index) => {
-                    link.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
-                    observer.observe(link);
-                });
+                // Apply staggered animations to lists
+                addAnimationClasses(document.querySelectorAll('.work-item'));
+                addAnimationClasses(document.querySelectorAll('.credential'));
+                addAnimationClasses(document.querySelectorAll('.book-feature'));
+                addAnimationClasses(document.querySelectorAll('.timeline-year-group'));
+                addAnimationClasses(document.querySelectorAll('.connect-link'));
             });
         </script>
         
