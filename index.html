@@ -1102,6 +1102,69 @@
                 <p>2025 Taylor Dolezal, Los Angeles</p>
             </div>
         </footer>
+        
+        <!-- Scroll-triggered animations -->
+        <script>
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections and animatable elements
+            document.addEventListener('DOMContentLoaded', () => {
+                // Add animation classes to elements
+                const sections = document.querySelectorAll('section');
+                sections.forEach(section => {
+                    section.classList.add('animate-on-scroll');
+                    observer.observe(section);
+                });
+                
+                // Stagger work items
+                const workItems = document.querySelectorAll('.work-item');
+                workItems.forEach((item, index) => {
+                    item.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
+                    observer.observe(item);
+                });
+                
+                // Stagger credentials
+                const credentials = document.querySelectorAll('.credential');
+                credentials.forEach((cred, index) => {
+                    cred.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
+                    observer.observe(cred);
+                });
+                
+                // Book features
+                const books = document.querySelectorAll('.book-feature');
+                books.forEach((book, index) => {
+                    book.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
+                    observer.observe(book);
+                });
+                
+                // Timeline groups
+                const timelineGroups = document.querySelectorAll('.timeline-year-group');
+                timelineGroups.forEach((group, index) => {
+                    group.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
+                    observer.observe(group);
+                });
+                
+                // Connect links
+                const connectLinks = document.querySelectorAll('.connect-link');
+                connectLinks.forEach((link, index) => {
+                    link.classList.add('animate-on-scroll', `stagger-${Math.min(index + 1, 5)}`);
+                    observer.observe(link);
+                });
+            });
+        </script>
+        
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8765a31b06cf419e80cdd7fbba61a348"}'></script>
         <!-- End Cloudflare Web Analytics -->
