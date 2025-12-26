@@ -1102,6 +1102,116 @@
                 <p>2025 Taylor Dolezal, Los Angeles</p>
             </div>
         </footer>
+
+        <!-- Visual Enhancement Scripts -->
+        <script>
+            (function() {
+                'use strict';
+
+                // Configuration
+                var CONFIG = {
+                    maxStaggerDelay: 8,
+                    observerThreshold: 0.1,
+                    observerRootMargin: '0px 0px -60px 0px',
+                    navScrollThreshold: 50
+                };
+
+                // Check for reduced motion preference
+                var prefersReducedMotion = window.matchMedia &&
+                    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                // Navigation scroll state
+                var nav = document.querySelector('nav');
+                var ticking = false;
+
+                function updateNavState() {
+                    if (!nav) return;
+                    if (window.scrollY > CONFIG.navScrollThreshold) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+                    ticking = false;
+                }
+
+                // Only add scroll listener if nav exists
+                if (nav) {
+                    window.addEventListener('scroll', function() {
+                        if (!ticking) {
+                            window.requestAnimationFrame(updateNavState);
+                            ticking = true;
+                        }
+                    }, { passive: true });
+                }
+
+                // Feature detection for IntersectionObserver
+                var supportsIntersectionObserver = 'IntersectionObserver' in window;
+
+                // Intersection Observer for scroll-triggered animations
+                var animationObserver = null;
+                if (supportsIntersectionObserver && !prefersReducedMotion) {
+                    var observerOptions = {
+                        threshold: CONFIG.observerThreshold,
+                        rootMargin: CONFIG.observerRootMargin
+                    };
+
+                    animationObserver = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                            }
+                        });
+                    }, observerOptions);
+                }
+
+                // Helper function to add animation classes with stagger effect
+                function addStaggeredAnimations(elements, baseClass) {
+                    if (!baseClass) baseClass = 'animate-on-scroll';
+                    elements.forEach(function(el, index) {
+                        el.classList.add(baseClass);
+                        var staggerIndex = Math.min(index + 1, CONFIG.maxStaggerDelay);
+                        el.classList.add('stagger-' + staggerIndex);
+
+                        // If reduced motion or no IntersectionObserver, show immediately
+                        if (prefersReducedMotion || !animationObserver) {
+                            el.classList.add('visible');
+                        } else {
+                            animationObserver.observe(el);
+                        }
+                    });
+                }
+
+                // Initialize when DOM is ready
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Add reduced-motion class to html for CSS targeting
+                    if (prefersReducedMotion) {
+                        document.documentElement.classList.add('reduced-motion');
+                    }
+
+                    // Animate sections
+                    var sections = document.querySelectorAll('section');
+                    sections.forEach(function(section) {
+                        section.classList.add('animate-on-scroll');
+                        if (prefersReducedMotion || !animationObserver) {
+                            section.classList.add('visible');
+                        } else {
+                            animationObserver.observe(section);
+                        }
+                    });
+
+                    // Staggered animations for various elements
+                    addStaggeredAnimations(document.querySelectorAll('.work-item'));
+                    addStaggeredAnimations(document.querySelectorAll('.credential'));
+                    addStaggeredAnimations(document.querySelectorAll('.book-feature'));
+                    addStaggeredAnimations(document.querySelectorAll('.timeline-year-group'));
+                    addStaggeredAnimations(document.querySelectorAll('.connect-link'));
+
+                    // Check initial nav state
+                    updateNavState();
+                });
+            })();
+        </script>
+
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8765a31b06cf419e80cdd7fbba61a348"}'></script>
         <!-- End Cloudflare Web Analytics -->
