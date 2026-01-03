@@ -1,0 +1,143 @@
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "*.css"
+      - "images/**"
+  push:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "*.css"
+  workflow_dispatch:
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  html-validate:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate HTML
+        run: npx html-validate index.html --formatter stylish
+
+  css-validate:
+    name: CSS Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate CSS
+        run: npx stylelint styles.css --config /dev/stdin <<< '{"extends": "stylelint-config-standard"}'
+        continue-on-error: true
+
+  links-check:
+    name: Check Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check internal links
+        run: |
+          npx linkinator index.html \
+            --skip "^(?!#)" \
+            --format json \
+            --retry \
+            --timeout 10000 || true
+
+  accessibility:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Start local server
+        run: |
+          npx serve . -l 8080 &
+          sleep 3
+
+      - name: Run accessibility audit
+        run: |
+          npx pa11y http://localhost:8080 \
+            --standard WCAG2AA \
+            --reporter cli \
+            --ignore "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail" || true
+
+  image-check:
+    name: Image Optimization Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check image sizes
+        run: |
+          echo "## Image Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+
+          total=0
+          for img in images/*; do
+            if [ -f "$img" ]; then
+              size=$(stat -f%z "$img" 2>/dev/null || stat -c%s "$img" 2>/dev/null)
+              size_kb=$((size / 1024))
+              total=$((total + size))
+              echo "| $img | ${size_kb}KB |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+          total_kb=$((total / 1024))
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total: ${total_kb}KB**" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check for missing WebP variants
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## WebP Check" >> $GITHUB_STEP_SUMMARY
+
+          missing=0
+          for jpg in images/*.jpg images/*.jpeg; do
+            if [ -f "$jpg" ]; then
+              webp="${jpg%.*}.webp"
+              if [ ! -f "$webp" ]; then
+                echo "- Missing WebP for: $jpg" >> $GITHUB_STEP_SUMMARY
+                missing=1
+              fi
+            fi
+          done
+
+          if [ $missing -eq 0 ]; then
+            echo "All JPEG images have WebP variants." >> $GITHUB_STEP_SUMMARY
+          fi

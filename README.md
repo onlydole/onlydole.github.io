@@ -44,10 +44,31 @@ Open `index.html` in a browser. No build step required.
 │   ├── dosu-logo.png
 │   └── ... (other book covers)
 ├── .github/
-│   ├── workflows/deploy.yml      # Auto-deploy on push
+│   ├── workflows/
+│   │   ├── deploy.yml            # Auto-deploy on push
+│   │   ├── pr-preview.yml        # PR preview deployments
+│   │   ├── validate.yml          # HTML/CSS validation
+│   │   └── lighthouse.yml        # Performance audits
+│   ├── copilot-instructions.md   # GitHub Copilot config
 │   └── CODEOWNERS
+├── AGENTS.md                     # AI assistant baseline spec
+├── CLAUDE.md                     # Claude Code instructions
+├── WARP.md                       # Warp AI instructions
 └── README.md
 ```
+
+## AI Assistant Support
+
+This repository includes configuration files for AI coding assistants:
+
+| File | Purpose |
+|------|---------|
+| [AGENTS.md](./AGENTS.md) | Baseline specification for all AI assistants |
+| [CLAUDE.md](./CLAUDE.md) | Claude Code specific instructions |
+| [WARP.md](./WARP.md) | Warp terminal AI instructions |
+| [.github/copilot-instructions.md](./.github/copilot-instructions.md) | GitHub Copilot configuration |
+
+AI assistants should read `AGENTS.md` first for project context, then their tool-specific file for additional guidance.
 
 ## License
 
