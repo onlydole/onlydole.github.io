@@ -1,2 +1,31 @@
-# Default code owner for all files
+# CODEOWNERS - Define code ownership for review requirements
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for all files
 * @onlydole
+
+# Core site files
+/index.html @onlydole
+/styles.css @onlydole
+
+# Configuration files
+/CNAME @onlydole
+/robots.txt @onlydole
+
+# AI assistant specifications
+/AGENTS.md @onlydole
+/CLAUDE.md @onlydole
+/WARP.md @onlydole
+/.github/copilot-instructions.md @onlydole
+
+# GitHub configuration
+/.github/ @onlydole
+/.github/workflows/ @onlydole
+/.github/CODEOWNERS @onlydole
+
+# Assets
+/images/ @onlydole
+/favicon.* @onlydole
+
+# Documentation
+/README.md @onlydole

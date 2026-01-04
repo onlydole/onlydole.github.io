@@ -1,0 +1,76 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Start local server
+        run: |
+          npx serve . -l 8080 &
+          sleep 3
+
+      - name: Run Lighthouse
+        id: lighthouse
+        run: |
+          npx lighthouse http://localhost:8080 \
+            --output json \
+            --output html \
+            --output-path ./lighthouse-report \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices,seo
+
+          # Extract scores
+          PERF=$(jq '.categories.performance.score * 100' lighthouse-report.json)
+          A11Y=$(jq '.categories.accessibility.score * 100' lighthouse-report.json)
+          BP=$(jq '.categories["best-practices"].score * 100' lighthouse-report.json)
+          SEO=$(jq '.categories.seo.score * 100' lighthouse-report.json)
+
+          echo "performance=$PERF" >> $GITHUB_OUTPUT
+          echo "accessibility=$A11Y" >> $GITHUB_OUTPUT
+          echo "best_practices=$BP" >> $GITHUB_OUTPUT
+          echo "seo=$SEO" >> $GITHUB_OUTPUT
+
+      - name: Create Lighthouse summary
+        run: |
+          echo "## Lighthouse Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Category | Score |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Performance | ${{ steps.lighthouse.outputs.performance }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility | ${{ steps.lighthouse.outputs.accessibility }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Best Practices | ${{ steps.lighthouse.outputs.best_practices }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SEO | ${{ steps.lighthouse.outputs.seo }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: |
+            lighthouse-report.html
+            lighthouse-report.json
+          retention-days: 14
+
+      - name: Check performance threshold
+        run: |
+          PERF=${{ steps.lighthouse.outputs.performance }}
+          if (( $(echo "$PERF < 90" | bc -l) )); then
+            echo "::warning::Performance score ($PERF) is below 90"
+          fi
