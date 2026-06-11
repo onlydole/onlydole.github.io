@@ -104,7 +104,7 @@ All entries are included, newest first. The consumer caps at three itself.
 
 - Autodiscovery tag in head. `<link rel="alternate" type="application/rss+xml" title="Taylor Dolezal · Talks" href="/feeds/talks.xml">`
 - Visible "Subscribe via RSS" link added to the speaking intro paragraph beside the existing scheduling link
-- Timeline content between the markers becomes generated. Existing entries reproduce byte for byte, new entries use the existing preview styles
+- Timeline content between the markers becomes generated. Existing entries reproduce byte for byte except img alt text, which normalizes to "Title, Venue" (the hand-written alts were inconsistent). New entries use the existing preview styles
 - Nothing else on the page moves
 
 ### CI

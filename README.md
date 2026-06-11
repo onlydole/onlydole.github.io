@@ -4,7 +4,8 @@ Personal website for [Taylor Dolezal](https://onlydole.dev) — Head of OSS at [
 
 ## Stack
 
-A zero-framework static site built with pure HTML and CSS.
+A zero-framework static site built with pure HTML and CSS. Talks data is
+generated into the page and an RSS feed by one stdlib-only Python script.
 
 - **Fonts**: Instrument Serif (display) + Outfit (body) via Google Fonts
 - **Analytics**: Cloudflare Web Analytics
@@ -31,12 +32,32 @@ A zero-framework static site built with pure HTML and CSS.
 
 Open `index.html` in a browser. No build step required.
 
+## Talks data and feeds
+
+`data/talks.toml` is the single source of truth for speaking appearances.
+Editing it and running
+
+```bash
+python3 scripts/build_feeds.py
+```
+
+regenerates `feeds/talks.xml` and the timeline section of `index.html`
+(between the `talks:start` and `talks:end` markers). Commit all three
+files together. CI runs the script with `--check` and fails on drift.
+
+The feed lives at [onlydole.dev/feeds/talks.xml](https://onlydole.dev/feeds/talks.xml).
+Adding another feed later means adding a TOML file under `data/` and a
+`Feed` entry to the registry in `scripts/build_feeds.py`.
+
 ## Structure
 
 ```
 .
 ├── index.html                    # Single-page site
 ├── styles.css                    # All styles (~1,200 lines)
+├── data/talks.toml               # Talks source of truth
+├── scripts/build_feeds.py        # Regenerates feed + timeline
+├── feeds/talks.xml               # Generated talks RSS feed
 ├── favicon.svg / favicon.png     # Favicon with fallback
 ├── taylor-web.jpg / .webp        # Hero image
 ├── images/                       # Book covers and logos
