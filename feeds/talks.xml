@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Taylor Dolezal · Talks</title>
+    <link>https://onlydole.dev/#speaking</link>
+    <description>Talks, keynotes, panels, and podcast appearances by Taylor Dolezal.</description>
+    <atom:link href="https://onlydole.dev/feeds/talks.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Nov 2025 12:00:00 +0000</lastBuildDate>
+    <item>
+      <title>The Missing Manual for Open Source Community Sustainability</title>
+      <link>https://youtu.be/FPQB7hQL4Vw</link>
+      <description>KubeCon + CloudNativeCon North America, Atlanta</description>
+      <category>talk</category>
+      <pubDate>Tue, 11 Nov 2025 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2025-11-missing-manual</guid>
+    </item>
+    <item>
+      <title>Above the Clouds. Mountainous Achievements with End Users</title>
+      <link>https://www.youtube.com/watch?v=TnYupUh6OIg</link>
+      <description>KubeCon + CloudNativeCon North America, Salt Lake City</description>
+      <category>keynote</category>
+      <pubDate>Thu, 14 Nov 2024 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2024-11-above-the-clouds</guid>
+    </item>
+    <item>
+      <title>PyTorch Conference 2024</title>
+      <link>https://www.youtube.com/watch?v=MWmOeXI17Kg</link>
+      <description>PyTorch Conference, San Francisco</description>
+      <category>keynote</category>
+      <pubDate>Wed, 18 Sep 2024 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2024-09-pytorch-cognition</guid>
+    </item>
+    <item>
+      <title>Windy City Whirlwind. Stirring Up the Cloud Native Ecosystem</title>
+      <link>https://www.youtube.com/watch?v=6mwuXLxwYTg</link>
+      <description>KubeCon + CloudNativeCon North America, Chicago</description>
+      <category>keynote</category>
+      <pubDate>Tue, 07 Nov 2023 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2023-11-windy-city-whirlwind</guid>
+    </item>
+    <item>
+      <title>Blueprint Banter. Cloud Native Conversations by the Fireside</title>
+      <link>https://youtu.be/yVyMveT6RCA</link>
+      <description>KubeCon + CloudNativeCon North America, Chicago</description>
+      <category>panel</category>
+      <pubDate>Tue, 07 Nov 2023 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2023-11-blueprint-banter</guid>
+    </item>
+    <item>
+      <title>The Cloud Native Ecosystem</title>
+      <link>https://changelog.com/shipit/69</link>
+      <description>Ship It! Podcast, Episode 69</description>
+      <category>podcast</category>
+      <pubDate>Thu, 08 Sep 2022 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2022-09-ship-it-69</guid>
+    </item>
+    <item>
+      <title>Layered Governance for Infrastructure with Kubernetes, OPA, and Terraform</title>
+      <link>https://archive.fosdem.org/2021/schedule/event/kubernetes_layered_governance/</link>
+      <description>FOSDEM 2021</description>
+      <category>talk</category>
+      <pubDate>Sat, 06 Feb 2021 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2021-02-fosdem-governance</guid>
+    </item>
+    <item>
+      <title>Kubernetes 1.19 Release</title>
+      <link>https://kubernetespodcast.com/episode/118-kubernetes-1.19/</link>
+      <description>Kubernetes Podcast from Google, Episode 118</description>
+      <category>podcast</category>
+      <pubDate>Tue, 25 Aug 2020 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2020-08-kubernetes-podcast-118</guid>
+    </item>
+  </channel>
+</rss>
