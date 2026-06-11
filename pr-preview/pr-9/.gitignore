@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if ever needed)
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+*.log
+
+# AI
+.claude/
+scripts/__pycache__/
+
+# Working docs (specs/plans) stay local; everything tracked here deploys to the site
+docs/
