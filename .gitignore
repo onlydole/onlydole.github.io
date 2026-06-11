@@ -20,3 +20,4 @@ npm-debug.log*
 
 # AI
 .claude/
+scripts/__pycache__/
