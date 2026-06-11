@@ -1,0 +1,42 @@
+name: Refresh writing
+
+on:
+  schedule:
+    - cron: "23 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh Substack snapshot and regenerate
+        run: python scripts/build_feeds.py --refresh
+
+      # Pushes made with GITHUB_TOKEN do not trigger the deploy workflow,
+      # so dispatch it explicitly when something changed.
+      - name: Commit and deploy if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/writing.json index.html
+          git commit -m "Refresh Substack writing snapshot"
+          git push
+          gh workflow run deploy.yml

@@ -49,6 +49,18 @@ The feed lives at [onlydole.dev/feeds/talks.xml](https://onlydole.dev/feeds/talk
 Adding another feed later means adding a TOML file under `data/` and a
 `Feed` entry to the registry in `scripts/build_feeds.py`.
 
+The Writing section's "Latest from the Substack" list renders from a
+committed snapshot at `data/writing.json`. Running
+
+```bash
+python3 scripts/build_feeds.py --refresh
+```
+
+fetches the Substack RSS feed, rewrites the snapshot, and regenerates
+the page. The `refresh-writing` workflow does this daily and commits
+only when something changed, so generation itself stays offline and
+deterministic.
+
 ## Structure
 
 ```
@@ -56,7 +68,8 @@ Adding another feed later means adding a TOML file under `data/` and a
 ├── index.html                    # Single-page site
 ├── styles.css                    # All styles (~1,200 lines)
 ├── data/talks.toml               # Talks source of truth
-├── scripts/build_feeds.py        # Regenerates feed + timeline
+├── data/writing.json             # Substack snapshot (via --refresh)
+├── scripts/build_feeds.py        # Regenerates feed + timeline + writing
 ├── feeds/talks.xml               # Generated talks RSS feed
 ├── favicon.svg / favicon.png     # Favicon with fallback
 ├── taylor-web.jpg / .webp        # Hero image

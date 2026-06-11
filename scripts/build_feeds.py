@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Generate RSS feeds and the speaking timeline from data/*.toml.
 
-data/talks.toml is the single source of truth. Outputs are committed:
-feeds/talks.xml and the markup between <!-- talks:start --> and
-<!-- talks:end --> in index.html. Run with no arguments to regenerate,
-or with --check to verify the committed output matches the data (CI).
+data/talks.toml is the single source of truth for talks. Outputs are
+committed: feeds/talks.xml plus the markup between <!-- talks:start -->
+/ <!-- talks:end --> and <!-- writing:start --> / <!-- writing:end -->
+in index.html. Run with no arguments to regenerate, with --check to
+verify the committed output matches the data (CI), or with --refresh
+to fetch the Substack feed into data/writing.json first.
 
-Output is deterministic. Same data in, byte-identical files out.
+Generation is deterministic and offline. Same data in, byte-identical
+files out. Only --refresh touches the network.
 
 Adding a feed later: add a TOML file under data/, append a Feed to
 FEEDS, and (only if it needs a page section) add a renderer.
@@ -22,20 +25,25 @@ if sys.version_info < (3, 11):  # tomllib arrived in 3.11
 import argparse
 import difflib
 import html
+import json
 import re
 import tomllib
+import urllib.error
+import urllib.request
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
-from email.utils import format_datetime
+from email.utils import format_datetime, parsedate_to_datetime
 from pathlib import Path
 from xml.etree import ElementTree
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://onlydole.dev"
+SUBSTACK = "https://onlydole.substack.com"
+WRITING_SNAPSHOT = REPO_ROOT / "data" / "writing.json"
+USER_AGENT = "onlydole.dev-feed-builder/1.0"
 KINDS = ("keynote", "talk", "panel", "podcast")
 BADGES = {"keynote": "Keynote", "talk": "Video", "panel": "Panel", "podcast": "Podcast"}
-TALKS_START = "<!-- talks:start -->"
-TALKS_END = "<!-- talks:end -->"
+MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 PLAY_VIDEO = (
     '<svg viewBox="0 0 68 48" aria-hidden="true"><path d="M66.52,7.74c-0.78-2.93'
@@ -255,30 +263,135 @@ def render_timeline(entries: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def replace_region(content: str, block: str) -> str:
+def replace_region(content: str, name: str, block: str) -> str:
+    start_marker = f"<!-- {name}:start -->"
+    end_marker = f"<!-- {name}:end -->"
     try:
-        start = content.index(TALKS_START) + len(TALKS_START)
-        end = content.index(TALKS_END)
+        start = content.index(start_marker) + len(start_marker)
+        end = content.index(end_marker)
     except ValueError as exc:
-        raise DataError(
-            f"index.html is missing the {TALKS_START} / {TALKS_END} markers"
-        ) from exc
+        raise DataError(f"index.html is missing the {name} markers") from exc
     if end < start:
-        raise DataError("talks markers are out of order in index.html")
-    return content[:start] + "\n" + block + " " * 20 + content[end:]
+        raise DataError(f"{name} markers are out of order in index.html")
+    line_start = content.rfind("\n", 0, end) + 1
+    indent = content[line_start:end]
+    if indent.strip():
+        raise DataError(f"the {name} end marker must start its own line")
+    return content[:start] + "\n" + block + indent + content[end:]
+
+
+def _rfc822_date(value: str | None) -> str | None:
+    """ISO date from an RFC 822 pubDate, or None if absent/invalid.
+
+    OverflowError covers absurd years, which parsedate_to_datetime
+    raises instead of ValueError.
+    """
+    try:
+        return parsedate_to_datetime(value).date().isoformat()
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+
+def _pretty_date(iso: str) -> str:
+    y, m, d = iso.split("-")
+    return f"{MONTHS[int(m) - 1]} {int(d)}, {y}"
+
+
+def refresh_writing() -> None:
+    """Fetch the Substack feed and rewrite data/writing.json.
+
+    The only network path in this script. A failure leaves the
+    committed snapshot untouched, so the page keeps last-good content.
+    """
+    req = urllib.request.Request(
+        f"{SUBSTACK}/feed", headers={"User-Agent": USER_AGENT}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            feed_text = resp.read().decode("utf-8", errors="replace")
+    except (urllib.error.URLError, OSError) as exc:
+        raise DataError(f"substack fetch failed: {exc}") from exc
+    lowered = feed_text.lower()
+    if "<!doctype" in lowered or "<!entity" in lowered:
+        raise DataError("substack feed contains DTD or entity declarations")
+    try:
+        root = ElementTree.fromstring(feed_text)
+    except ElementTree.ParseError as exc:
+        raise DataError(f"unparsable substack feed: {exc}") from exc
+    posts = []
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        url = (item.findtext("link") or "").strip()
+        published = _rfc822_date(item.findtext("pubDate"))
+        if not (title and url and published):
+            continue
+        posts.append({"title": title, "url": url, "date": published})
+    if not posts:
+        raise DataError("substack feed had no usable items")
+    posts.sort(key=lambda p: (p["date"], p["url"]), reverse=True)
+    del posts[3:]
+    WRITING_SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
+    WRITING_SNAPSHOT.write_text(
+        json.dumps(posts, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    print(f"wrote {WRITING_SNAPSHOT.relative_to(REPO_ROOT)}")
+
+
+def load_writing(path: Path | None = None) -> list[dict]:
+    path = path or WRITING_SNAPSHOT
+    try:
+        posts = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DataError(
+            f"{path.name}: {exc} (run scripts/build_feeds.py --refresh)"
+        ) from exc
+    if not isinstance(posts, list) or not posts:
+        raise DataError(f"{path.name} must be a non-empty list, run --refresh")
+    for post in posts:
+        for field in ("title", "url", "date"):
+            if not post.get(field):
+                raise DataError(f"writing snapshot post missing {field!r}")
+    return posts
+
+
+def render_writing(posts: list[dict]) -> str:
+    pad = " " * 16
+    lines = [
+        f'{pad}<div class="section-subheader">',
+        f"{pad}    <h3>Latest from the Substack</h3>",
+        f"{pad}</div>",
+        f'{pad}<ul class="substack-posts">',
+    ]
+    for post in posts:
+        title = html.escape(post["title"], quote=False)
+        url = html.escape(post["url"], quote=True)
+        lines += [
+            f"{pad}    <li>",
+            f'{pad}        <a href="{url}" target="_blank" rel="noopener noreferrer">{title}</a>',
+            f'{pad}        <span class="post-date">{_pretty_date(post["date"])}</span>',
+            f"{pad}    </li>",
+        ]
+    lines += [
+        f"{pad}</ul>",
+        f'{pad}<p class="substack-more">',
+        f'{pad}    <a href="{SUBSTACK}" target="_blank" rel="noopener noreferrer">Read all on Substack →</a>',
+        f"{pad}</p>",
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def build() -> dict[Path, str]:
     """Render every output in memory. Nothing is written here."""
     outputs: dict[Path, str] = {}
     index_path = REPO_ROOT / "index.html"
+    page = index_path.read_text(encoding="utf-8")
     for feed in FEEDS:
         entries = load_talks(REPO_ROOT / feed.data)
         outputs[REPO_ROOT / feed.out] = render_feed(entries, feed)
         if feed.name == "talks":
-            outputs[index_path] = replace_region(
-                index_path.read_text(encoding="utf-8"), render_timeline(entries)
-            )
+            page = replace_region(page, "talks", render_timeline(entries))
+    page = replace_region(page, "writing", render_writing(load_writing()))
+    outputs[index_path] = page
     return outputs
 
 
@@ -289,8 +402,17 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="verify committed output matches the data, write nothing",
     )
+    parser.add_argument(
+        "--refresh",
+        action="store_true",
+        help="fetch the Substack feed into data/writing.json, then regenerate",
+    )
     args = parser.parse_args(argv)
+    if args.refresh and args.check:
+        parser.error("--refresh and --check are mutually exclusive")
     try:
+        if args.refresh:
+            refresh_writing()
         outputs = build()
     except DataError as exc:
         print(f"error: {exc}", file=sys.stderr)
