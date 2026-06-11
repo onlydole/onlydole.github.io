@@ -108,6 +108,10 @@ def load_talks(path: Path) -> list[dict]:
             )
         if entry.get("brand_text") and not entry.get("brand_color"):
             raise DataError(f"talk {slug!r} has brand_text but no brand_color")
+        if entry.get("youtube_thumb") not in (None, "maxresdefault", "sddefault", "hqdefault"):
+            raise DataError(
+                f"talk {slug!r} youtube_thumb must be maxresdefault, sddefault, or hqdefault"
+            )
     entries.sort(key=lambda e: (e["date"].isoformat(), e["slug"]), reverse=True)
     return entries
 
@@ -160,9 +164,10 @@ def _preview_lines(entry: dict) -> list[str]:
             f'<a href="{url}" target="_blank" rel="noopener noreferrer" '
             'class="talk-video-preview">'
         )
+        thumb = entry.get("youtube_thumb", "maxresdefault")
         media = (
             f'<img src="https://img.youtube.com/vi/{entry["youtube"]}'
-            f'/maxresdefault.jpg" alt="{html.escape(_alt(entry), quote=True)}" '
+            f'/{thumb}.jpg" alt="{html.escape(_alt(entry), quote=True)}" '
             'loading="lazy" />'
         )
     elif entry.get("image"):

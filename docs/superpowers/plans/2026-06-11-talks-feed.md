@@ -923,7 +923,7 @@ Expected: first pubDate is the 2025-11-11 talk, last is the 2020-08-11 workshop,
 - [ ] **Step 5: Eyeball the page**
 
 Run: `open index.html`
-Check every YouTube thumbnail renders (some older videos may lack `maxresdefault.jpg` and show a gray placeholder). For any gray thumbnail, switch that entry from `youtube = "ID"` to `image = "https://img.youtube.com/vi/ID/hqdefault.jpg"` with an `image_alt`, regenerate, and re-check. Check the brand boxes read well in both themes.
+Check every YouTube thumbnail renders (some older videos may lack `maxresdefault.jpg` and 404). For any missing one, set `youtube_thumb = "hqdefault"` on that entry, which keeps the video preview markup while the base CSS 16x9 crop absorbs the 4x3 source. (Deviation from the original image-style suggestion, which would have applied podcast letterbox styling to video content.) Check the brand boxes read well in both themes.
 
 - [ ] **Step 6: Commit**
 

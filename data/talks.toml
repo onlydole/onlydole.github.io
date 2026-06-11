@@ -7,6 +7,7 @@
 #   date   native TOML date (no quotes)
 # Exactly one preview style per entry.
 #   youtube = "VIDEOID"                      YouTube thumbnail preview
+#     (optional youtube_thumb = "hqdefault"  for videos without maxresdefault)
 #   image = "https://..."                    image preview (optional image_alt)
 #   brand_text = "..." + brand_color = "#x"  colored box preview
 
@@ -30,7 +31,7 @@ youtube = "TnYupUh6OIg"
 
 [[talk]]
 slug = "2024-09-pytorch-cognition"
-title = "PyTorch Conference 2024"
+title = "From Containers to Cognition. Conducting the AI Orchestra"
 venue = "PyTorch Conference, San Francisco"
 date = 2024-09-18
 kind = "keynote"
@@ -84,3 +85,182 @@ kind = "podcast"
 url = "https://kubernetespodcast.com/episode/118-kubernetes-1.19/"
 brand_text = "Kubernetes Podcast"
 brand_color = "#326ce5"
+
+[[talk]]
+slug = "2025-11-kubefm-contributions"
+title = "Navigating Contributions and Community Health in Kubernetes"
+venue = "KubeFM podcast"
+date = 2025-11-03
+kind = "podcast"
+url = "https://kube.fm/navigating-contributions-community-taylor"
+brand_text = "KubeFM"
+brand_color = "#0e7490"
+
+[[talk]]
+slug = "2025-03-open-source-ready"
+title = "The Whirlwind Pace of AI"
+venue = "Open Source Ready, Episode 10"
+date = 2025-03-27
+kind = "podcast"
+url = "https://www.heavybit.com/library/podcasts/open-source-ready/ep-10-the-whirlwind-pace-of-ai-with-taylor-dolezal"
+brand_text = "Open Source Ready"
+brand_color = "#111827"
+
+[[talk]]
+slug = "2025-01-kube-cuddle"
+title = "Taylor Dolezal on Kube Cuddle"
+venue = "Kube Cuddle, Episode 25"
+date = 2025-01-15
+kind = "podcast"
+url = "https://kubecuddle.transistor.fm/episodes/taylor-dolezal"
+brand_text = "Kube Cuddle"
+brand_color = "#7c3aed"
+
+[[talk]]
+slug = "2024-12-iac-podcast"
+title = "CNCF Projects and Open Source Evolution"
+venue = "The IaC Podcast"
+date = 2024-12-10
+kind = "podcast"
+url = "https://www.theiacpodcast.com/episode/cncf-projects-and-open-source-evolution-with-taylor-dolezal"
+brand_text = "The IaC Podcast"
+brand_color = "#4338ca"
+
+[[talk]]
+slug = "2024-03-paris-wasm-panel"
+title = "Revolutionizing Cloud Native Architectures with WebAssembly"
+venue = "KubeCon + CloudNativeCon Europe, Paris"
+date = 2024-03-21
+kind = "panel"
+url = "https://www.youtube.com/watch?v=tu8a-GefJL8"
+youtube = "tu8a-GefJL8"
+
+[[talk]]
+slug = "2024-03-paris-keynote"
+title = "Hip, Hip, Beret! No Cap, Just Cloud Native Facts"
+venue = "KubeCon + CloudNativeCon Europe, Paris"
+date = 2024-03-21
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=MICHGBAe8gc"
+youtube = "MICHGBAe8gc"
+
+[[talk]]
+slug = "2024-03-cloud-native-now"
+title = "The Kubernetes Ecosystem"
+venue = "Cloud Native Now, EP7"
+date = 2024-03-18
+kind = "podcast"
+url = "https://cloudnativenowpodcast.podbean.com/e/the-kubernetes-ecosystem-with-cncfs-taylor-dolezal/"
+brand_text = "Cloud Native Now"
+brand_color = "#0284c7"
+
+[[talk]]
+slug = "2023-10-new-stack-kubecon"
+title = "What Will Be Hot at KubeCon? Platform Engineering, of Course"
+venue = "The New Stack Makers"
+date = 2023-10-31
+kind = "podcast"
+url = "https://thenewstack.io/what-will-be-hot-at-kubecon-platform-engineering-of-course/"
+brand_text = "The New Stack"
+brand_color = "#ec0090"
+
+[[talk]]
+slug = "2023-04-openobservability"
+title = "Live from KubeCon. Insider Insights with CNCF's Head of Ecosystem"
+venue = "OpenObservability Talks"
+date = 2023-04-20
+kind = "podcast"
+url = "https://www.youtube.com/watch?v=a9D5p0SaKL8"
+youtube = "a9D5p0SaKL8"
+
+[[talk]]
+slug = "2023-04-cappucci-know"
+title = "Cappucci-Know. Percolating EU End User Insights in the Cloud Native Café"
+venue = "KubeCon + CloudNativeCon Europe, Amsterdam"
+date = 2023-04-19
+kind = "panel"
+url = "https://www.youtube.com/watch?v=4xYH36akGSE"
+youtube = "4xYH36akGSE"
+
+[[talk]]
+slug = "2023-04-amsterdam-keynote"
+title = "Tulips, Terabytes, and Transformations. Blooming Innovations in the Cloud Native Garden"
+venue = "KubeCon + CloudNativeCon Europe, Amsterdam"
+date = 2023-04-19
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=-hJAoeV3U3o"
+youtube = "-hJAoeV3U3o"
+
+[[talk]]
+slug = "2022-06-oss-summit-end-users"
+title = "Wandering in the Wonders of the End User Community"
+venue = "Open Source Summit North America, Austin"
+date = 2022-06-23
+kind = "keynote"
+url = "https://ossna2022.sched.com/event/11Qje/keynote-wandering-in-the-wonders-of-the-end-user-community-taylor-dolezal-head-of-ecosystem-cloud-native-computing-foundation"
+brand_text = "OSS Summit NA"
+brand_color = "#00836e"
+
+[[talk]]
+slug = "2022-06-platformcon"
+title = "Navigating an Infinite Landscape"
+venue = "PlatformCon 2022"
+date = 2022-06-10
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=-kmSQRsTOxs"
+youtube = "-kmSQRsTOxs"
+youtube_thumb = "hqdefault"
+
+# Editorial title. The segment ran inside the opening keynote (from 44:22),
+# so it has no standalone session title. Adjust freely.
+[[talk]]
+slug = "2022-05-valencia-end-user"
+title = "End User Ecosystem Update"
+venue = "KubeCon + CloudNativeCon Europe, Valencia"
+date = 2022-05-18
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=XqEflGXlErA&t=2662s"
+youtube = "XqEflGXlErA"
+
+[[talk]]
+slug = "2021-12-enterpriseng"
+title = "Crafting Kubernetes with Functions. EKS and the CDK for Terraform"
+venue = "EnterpriseNG 2021"
+date = 2021-12-03
+kind = "talk"
+url = "https://enterprise.ng-conf.org/session/crafting-kubernetes-with-functions/"
+brand_text = "EnterpriseNG"
+brand_color = "#dd0031"
+
+# Session day within the Nov 29 to Dec 3 window is unverified.
+# Taylor, correct the date if you remember the day.
+[[talk]]
+slug = "2021-11-reinvent-cdktf"
+title = "Optimizing AWS Workflows with the CDK for Terraform"
+venue = "AWS re:Invent 2021, Las Vegas"
+date = 2021-11-29
+kind = "talk"
+url = "https://www.youtube.com/watch?v=7SluZSZntKA"
+youtube = "7SluZSZntKA"
+youtube_thumb = "hqdefault"
+
+[[talk]]
+slug = "2021-02-hashitalks-governance"
+title = "Layered Governance for Your Infrastructure with Kubernetes, OPA, and Terraform"
+venue = "HashiTalks 2021"
+date = 2021-02-17
+kind = "talk"
+url = "https://www.hashicorp.com/resources/layered-governance-for-your-infrastructure-with-kubernetes-opa-and-terraform"
+brand_text = "HashiTalks '21"
+brand_color = "#000000"
+
+# Dash 2020 ran Aug 11 to 12, exact workshop day unverified.
+[[talk]]
+slug = "2020-08-dash-datadog"
+title = "From Provisioning to Production. Automating Observability Principles with Terraform"
+venue = "Dash by Datadog 2020"
+date = 2020-08-11
+kind = "talk"
+url = "https://speakerdeck.com/ksatirli/from-provisioning-to-production"
+brand_text = "Dash 2020"
+brand_color = "#632ca6"
