@@ -20,3 +20,7 @@ npm-debug.log*
 
 # AI
 .claude/
+scripts/__pycache__/
+
+# Working docs (specs/plans) stay local; everything tracked here deploys to the site
+docs/
