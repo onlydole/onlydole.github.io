@@ -351,6 +351,12 @@ def load_writing(path: Path | None = None) -> list[dict]:
         for field in ("title", "url", "date"):
             if not post.get(field):
                 raise DataError(f"writing snapshot post missing {field!r}")
+        try:
+            date.fromisoformat(post["date"])
+        except (TypeError, ValueError) as exc:
+            raise DataError(
+                f"{path.name} has a bad date {post['date']!r}, run --refresh"
+            ) from exc
     return posts
 
 
