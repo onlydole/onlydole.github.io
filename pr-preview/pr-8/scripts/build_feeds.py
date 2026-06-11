@@ -22,6 +22,7 @@ if sys.version_info < (3, 11):  # tomllib arrived in 3.11
 import argparse
 import difflib
 import html
+import re
 import tomllib
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
@@ -108,11 +109,21 @@ def load_talks(path: Path) -> list[dict]:
             )
         if entry.get("brand_text") and not entry.get("brand_color"):
             raise DataError(f"talk {slug!r} has brand_text but no brand_color")
+        if entry.get("brand_color") and not re.fullmatch(
+            r"#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})", entry["brand_color"]
+        ):
+            raise DataError(
+                f"talk {slug!r} brand_color must be a 3- or 6-digit hex color"
+            )
+        if entry.get("youtube") and not re.fullmatch(
+            r"[A-Za-z0-9_-]{11}", entry["youtube"]
+        ):
+            raise DataError(f"talk {slug!r} youtube must be an 11-character video id")
         if entry.get("youtube_thumb") not in (None, "maxresdefault", "sddefault", "hqdefault"):
             raise DataError(
                 f"talk {slug!r} youtube_thumb must be maxresdefault, sddefault, or hqdefault"
             )
-    entries.sort(key=lambda e: (e["date"].isoformat(), e["slug"]), reverse=True)
+    entries.sort(key=lambda e: (e["date"], e["slug"]), reverse=True)
     return entries
 
 
@@ -259,15 +270,16 @@ def replace_region(content: str, block: str) -> str:
 
 def build() -> dict[Path, str]:
     """Render every output in memory. Nothing is written here."""
-    talks_feed = FEEDS[0]
-    talks = load_talks(REPO_ROOT / talks_feed.data)
+    outputs: dict[Path, str] = {}
     index_path = REPO_ROOT / "index.html"
-    return {
-        REPO_ROOT / talks_feed.out: render_feed(talks, talks_feed),
-        index_path: replace_region(
-            index_path.read_text(encoding="utf-8"), render_timeline(talks)
-        ),
-    }
+    for feed in FEEDS:
+        entries = load_talks(REPO_ROOT / feed.data)
+        outputs[REPO_ROOT / feed.out] = render_feed(entries, feed)
+        if feed.name == "talks":
+            outputs[index_path] = replace_region(
+                index_path.read_text(encoding="utf-8"), render_timeline(entries)
+            )
+    return outputs
 
 
 def main(argv: list[str] | None = None) -> int:
