@@ -1,0 +1,86 @@
+# Source of truth for the speaking timeline and the talks RSS feed.
+# Edit this file, run scripts/build_feeds.py, commit the results.
+#
+# Required fields. slug, title, venue, date, kind, url.
+#   slug   permanent feed identity, never edit after a talk ships in the feed
+#   kind   one of keynote, talk, panel, podcast (talk renders the Video badge)
+#   date   native TOML date (no quotes)
+# Exactly one preview style per entry.
+#   youtube = "VIDEOID"                      YouTube thumbnail preview
+#   image = "https://..."                    image preview (optional image_alt)
+#   brand_text = "..." + brand_color = "#x"  colored box preview
+
+[[talk]]
+slug = "2025-11-missing-manual"
+title = "The Missing Manual for Open Source Community Sustainability"
+venue = "KubeCon + CloudNativeCon North America, Atlanta"
+date = 2025-11-11
+kind = "talk"
+url = "https://youtu.be/FPQB7hQL4Vw"
+youtube = "FPQB7hQL4Vw"
+
+[[talk]]
+slug = "2024-11-above-the-clouds"
+title = "Above the Clouds. Mountainous Achievements with End Users"
+venue = "KubeCon + CloudNativeCon North America, Salt Lake City"
+date = 2024-11-14
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=TnYupUh6OIg"
+youtube = "TnYupUh6OIg"
+
+[[talk]]
+slug = "2024-09-pytorch-cognition"
+title = "PyTorch Conference 2024"
+venue = "PyTorch Conference, San Francisco"
+date = 2024-09-18
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=MWmOeXI17Kg"
+youtube = "MWmOeXI17Kg"
+
+[[talk]]
+slug = "2023-11-windy-city-whirlwind"
+title = "Windy City Whirlwind. Stirring Up the Cloud Native Ecosystem"
+venue = "KubeCon + CloudNativeCon North America, Chicago"
+date = 2023-11-07
+kind = "keynote"
+url = "https://www.youtube.com/watch?v=6mwuXLxwYTg"
+youtube = "6mwuXLxwYTg"
+
+[[talk]]
+slug = "2023-11-blueprint-banter"
+title = "Blueprint Banter. Cloud Native Conversations by the Fireside"
+venue = "KubeCon + CloudNativeCon North America, Chicago"
+date = 2023-11-07
+kind = "panel"
+url = "https://youtu.be/yVyMveT6RCA"
+youtube = "yVyMveT6RCA"
+
+[[talk]]
+slug = "2022-09-ship-it-69"
+title = "The Cloud Native Ecosystem"
+venue = "Ship It! Podcast, Episode 69"
+date = 2022-09-08
+kind = "podcast"
+url = "https://changelog.com/shipit/69"
+image = "https://cdn.changelog.com/uploads/covers/ship-it-original.png"
+image_alt = "Ship It! Podcast"
+
+[[talk]]
+slug = "2021-02-fosdem-governance"
+title = "Layered Governance for Infrastructure with Kubernetes, OPA, and Terraform"
+venue = "FOSDEM 2021"
+date = 2021-02-06
+kind = "talk"
+url = "https://archive.fosdem.org/2021/schedule/event/kubernetes_layered_governance/"
+brand_text = "FOSDEM '21"
+brand_color = "#4a286a"
+
+[[talk]]
+slug = "2020-08-kubernetes-podcast-118"
+title = "Kubernetes 1.19 Release"
+venue = "Kubernetes Podcast from Google, Episode 118"
+date = 2020-08-25
+kind = "podcast"
+url = "https://kubernetespodcast.com/episode/118-kubernetes-1.19/"
+brand_text = "Kubernetes Podcast"
+brand_color = "#326ce5"

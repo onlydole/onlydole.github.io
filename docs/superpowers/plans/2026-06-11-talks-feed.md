@@ -10,11 +10,11 @@
 
 Spec. `docs/superpowers/specs/2026-06-11-talks-feed-design.md`. Work happens on the `talks-feed` branch, which already carries the spec.
 
-**Sequencing principle.** Task 1 seeds the TOML with exactly the nine entries on the page today (current titles, current venues, research-verified dates) so Task 3 can prove the generator reproduces the existing page. Content upgrades and the seventeen new entries land in Task 7, after the machinery is proven.
+**Sequencing principle.** Task 1 seeds the TOML with exactly the eight entries on the page today (current titles, current venues, research-verified dates) so Task 3 can prove the generator reproduces the existing page. Content upgrades and the eighteen new entries land in Task 6, after the machinery is proven.
 
 ---
 
-### Task 1: Seed data/talks.toml with the current nine page entries
+### Task 1: Seed data/talks.toml with the current eight page entries
 
 **Files:**
 - Create: `data/talks.toml`
@@ -110,14 +110,14 @@ brand_text = "Kubernetes Podcast"
 brand_color = "#326ce5"
 ```
 
-Note the Blueprint Banter entry was a panel on the page already and the 2023 page order (Windy City above Blueprint Banter) is preserved by the slug tiebreak (`w` sorts after `b` descending). Dates come from the 2026-06-11 research pass (sched.com, changelog.com, FOSDEM archive, kubernetespodcast.com). The PyTorch title stays at the page's current generic label until Task 7 so Task 3 can diff cleanly.
+Note the Blueprint Banter entry was a panel on the page already and the 2023 page order (Windy City above Blueprint Banter) is preserved by the slug tiebreak (`w` sorts after `b` descending). Dates come from the 2026-06-11 research pass (sched.com, changelog.com, FOSDEM archive, kubernetespodcast.com). The PyTorch title stays at the page's current generic label until Task 6 so Task 3 can diff cleanly.
 
-That is nine entries, matching the page today. The KubeFM entry and all researched additions arrive in Task 7.
+That is eight entries, matching the page today. The KubeFM entry and all researched additions arrive in Task 6.
 
 - [ ] **Step 2: Verify the TOML parses**
 
 Run: `python3 -c "import tomllib,pathlib; d=tomllib.loads(pathlib.Path('data/talks.toml').read_text()); print(len(d['talk']))"`
-Expected: `9`
+Expected: `8`
 If the local python3 is older than 3.11 use `python3.12` or `uv run python` for every python invocation in this plan.
 
 - [ ] **Step 3: Commit**
@@ -588,7 +588,7 @@ Expected: a unified diff mentioning DRIFT, the stale error line, and `exit=1`. T
 Run: `python3 -c "from xml.etree import ElementTree; t=ElementTree.parse('feeds/talks.xml'); items=t.findall('.//item'); print(len(items)); print(items[0].findtext('title')); print(items[0].findtext('guid')); print(items[0].findtext('pubDate'))"`
 Expected:
 ```
-9
+8
 The Missing Manual for Open Source Community Sustainability
 https://onlydole.dev/talks/2025-11-missing-manual
 Tue, 11 Nov 2025 12:00:00 +0000
@@ -705,7 +705,7 @@ git commit -m "Check generated feeds against data in CI"
 ### Task 6: Full content, the research-backed talk list
 
 **Files:**
-- Modify: `data/talks.toml` (append seventeen entries, upgrade one title)
+- Modify: `data/talks.toml` (append eighteen entries, upgrade one title)
 - Modify (generated): `index.html`, `feeds/talks.xml`
 
 Provenance for every date below is the 2026-06-11 Exa research pass, verified against sched.com schedules, official episode pages, and the FOSDEM archive. Three entries carry a date caveat for Taylor, marked with comments.
@@ -724,7 +724,7 @@ with
 title = "From Containers to Cognition. Conducting the AI Orchestra"
 ```
 
-- [ ] **Step 2: Append the seventeen new entries to data/talks.toml**
+- [ ] **Step 2: Append the eighteen new entries to data/talks.toml**
 
 ```toml
 [[talk]]
