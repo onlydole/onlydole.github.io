@@ -1047,6 +1047,7 @@ section:last-of-type {
     color: var(--text-muted);
     font-size: 14px;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .substack-more a {

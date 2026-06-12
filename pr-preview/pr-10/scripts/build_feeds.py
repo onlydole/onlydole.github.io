@@ -325,6 +325,8 @@ def refresh_writing() -> None:
         published = _rfc822_date(item.findtext("pubDate"))
         if not (title and url and published):
             continue
+        if not url.startswith(("http://", "https://")):
+            continue
         posts.append({"title": title, "url": url, "date": published})
     if not posts:
         raise DataError("substack feed had no usable items")
@@ -357,6 +359,8 @@ def load_writing(path: Path | None = None) -> list[dict]:
             raise DataError(
                 f"{path.name} has a bad date {post['date']!r}, run --refresh"
             ) from exc
+        if not str(post["url"]).startswith(("http://", "https://")):
+            raise DataError(f"{path.name} has a non-http url {post['url']!r}")
     return posts
 
 
