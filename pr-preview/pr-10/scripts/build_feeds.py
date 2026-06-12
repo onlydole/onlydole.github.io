@@ -350,6 +350,8 @@ def load_writing(path: Path | None = None) -> list[dict]:
     if not isinstance(posts, list) or not posts:
         raise DataError(f"{path.name} must be a non-empty list, run --refresh")
     for post in posts:
+        if not isinstance(post, dict):
+            raise DataError(f"{path.name} entries must be objects, run --refresh")
         for field in ("title", "url", "date"):
             if not post.get(field):
                 raise DataError(f"writing snapshot post missing {field!r}")
