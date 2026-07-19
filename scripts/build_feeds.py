@@ -27,6 +27,7 @@ import difflib
 import html
 import json
 import re
+import time
 import tomllib
 import urllib.error
 import urllib.request
@@ -40,7 +41,19 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://onlydole.dev"
 SUBSTACK = "https://onlydole.substack.com"
 WRITING_SNAPSHOT = REPO_ROOT / "data" / "writing.json"
-USER_AGENT = "onlydole.dev-feed-builder/1.0"
+# Substack sits behind Cloudflare, which 403s non-browser user agents
+# from datacenter IPs (like GitHub Actions runners), so the fetch has
+# to look like a browser.
+FEED_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8",
+}
+FETCH_ATTEMPTS = 3
+RETRYABLE_STATUSES = {403, 429, 500, 502, 503, 504}
 KINDS = ("keynote", "talk", "panel", "podcast")
 BADGES = {"keynote": "Keynote", "talk": "Video", "panel": "Panel", "podcast": "Podcast"}
 MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -297,20 +310,37 @@ def _pretty_date(iso: str) -> str:
     return f"{MONTHS[int(m) - 1]} {int(d)}, {y}"
 
 
+def _fetch_feed() -> str:
+    """GET the Substack feed, retrying transient failures with backoff."""
+    req = urllib.request.Request(f"{SUBSTACK}/feed", headers=FEED_HEADERS)
+    for attempt in range(1, FETCH_ATTEMPTS + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.read().decode("utf-8", errors="replace")
+        except (urllib.error.URLError, OSError) as exc:
+            retryable = (
+                not isinstance(exc, urllib.error.HTTPError)
+                or exc.code in RETRYABLE_STATUSES
+            )
+            if not retryable or attempt == FETCH_ATTEMPTS:
+                raise DataError(f"substack fetch failed: {exc}") from exc
+            delay = 5 * 2 ** (attempt - 1)
+            print(
+                f"substack fetch attempt {attempt} failed ({exc}), "
+                f"retrying in {delay}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+    raise AssertionError("unreachable")
+
+
 def refresh_writing() -> None:
     """Fetch the Substack feed and rewrite data/writing.json.
 
     The only network path in this script. A failure leaves the
     committed snapshot untouched, so the page keeps last-good content.
     """
-    req = urllib.request.Request(
-        f"{SUBSTACK}/feed", headers={"User-Agent": USER_AGENT}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            feed_text = resp.read().decode("utf-8", errors="replace")
-    except (urllib.error.URLError, OSError) as exc:
-        raise DataError(f"substack fetch failed: {exc}") from exc
+    feed_text = _fetch_feed()
     lowered = feed_text.lower()
     if "<!doctype" in lowered or "<!entity" in lowered:
         raise DataError("substack feed contains DTD or entity declarations")
