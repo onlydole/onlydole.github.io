@@ -53,7 +53,8 @@ FEED_HEADERS = {
     "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8",
 }
 FETCH_ATTEMPTS = 3
-RETRYABLE_STATUSES = {403, 429, 500, 502, 503, 504}
+# Any 5xx is also retryable, including Cloudflare's nonstandard 520-526.
+RETRYABLE_STATUSES = {403, 429}
 KINDS = ("keynote", "talk", "panel", "podcast")
 BADGES = {"keynote": "Keynote", "talk": "Video", "panel": "Panel", "podcast": "Podcast"}
 MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -321,6 +322,7 @@ def _fetch_feed() -> str:
             retryable = (
                 not isinstance(exc, urllib.error.HTTPError)
                 or exc.code in RETRYABLE_STATUSES
+                or 500 <= exc.code < 600
             )
             if not retryable or attempt == FETCH_ATTEMPTS:
                 raise DataError(f"substack fetch failed: {exc}") from exc
