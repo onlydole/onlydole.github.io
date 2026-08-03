@@ -57,9 +57,12 @@ python3 scripts/build_feeds.py --refresh
 ```
 
 fetches the Substack RSS feed, rewrites the snapshot, and regenerates
-the page. The `refresh-writing` workflow does this daily and commits
-only when something changed, so generation itself stays offline and
-deterministic.
+the page. Run it after publishing a post and commit the result;
+generation itself stays offline and deterministic.
+
+This is a local step rather than a scheduled workflow because Substack
+sits behind Cloudflare, which returns `403 Forbidden` to requests from
+GitHub Actions runner IPs regardless of user agent or endpoint.
 
 ## Structure
 
