@@ -85,7 +85,7 @@ GitHub Actions runner IPs regardless of user agent or endpoint.
 │   ├── workflows/feeds.yml       # CI check for generated-file drift
 │   ├── workflows/pr-preview.yml  # Per-PR preview deployments
 │   ├── workflows/pullfrog.yml    # Manual agent workflow
-│   ├── dependabot.yml            # Monthly grouped action updates
+│   ├── dependabot.yml            # Weekly grouped action updates
 │   └── CODEOWNERS
 └── README.md
 ```

@@ -6,13 +6,12 @@ version: 2
 # eventually breaks runs after the agent has already done its work.
 # See https://docs.pullfrog.com/versioning.
 #
-# Grouped and monthly so this is at most one PR a month, not one per
-# action.
+# Grouped so this is at most one PR a week, not one per action.
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: weekly
     groups:
       actions:
         patterns:
