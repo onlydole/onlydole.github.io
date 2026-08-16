@@ -69,19 +69,23 @@ GitHub Actions runner IPs regardless of user agent or endpoint.
 ```
 .
 ├── index.html                    # Single-page site
-├── styles.css                    # All styles (~1,200 lines)
+├── styles.css                    # All styles (~1,270 lines)
 ├── data/talks.toml               # Talks source of truth
 ├── data/writing.json             # Substack snapshot (via --refresh)
 ├── scripts/build_feeds.py        # Regenerates feed + timeline + writing
 ├── feeds/talks.xml               # Generated talks RSS feed
 ├── favicon.svg / favicon.png     # Favicon with fallback
-├── taylor-web.jpg / .webp        # Hero image
-├── images/                       # Book covers and logos
+├── images/                       # Hero image, book covers, logos
+│   ├── taylor-web.jpg / .webp
 │   ├── terraform-cookbook.*
 │   ├── dosu-logo.png
 │   └── ... (other book covers)
 ├── .github/
-│   ├── workflows/deploy.yml      # Auto-deploy on push
+│   ├── workflows/deploy.yml      # Auto-deploy on push to main
+│   ├── workflows/feeds.yml       # CI check for generated-file drift
+│   ├── workflows/pr-preview.yml  # Per-PR preview deployments
+│   ├── workflows/pullfrog.yml    # Manual agent workflow
+│   ├── dependabot.yml            # Weekly grouped action updates
 │   └── CODEOWNERS
 └── README.md
 ```

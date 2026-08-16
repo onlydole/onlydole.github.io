@@ -12,6 +12,36 @@
 #   brand_text = "..." + brand_color = "#x"  colored box preview
 
 [[talk]]
+slug = "2026-07-alexas-input-agents"
+title = "Paying Attention in the Age of Agents"
+venue = "Alexa's Input (AI), panel episode"
+date = 2026-07-20
+kind = "podcast"
+url = "https://creators.spotify.com/pod/profile/alexagriffith/episodes/Paying-Attention-in-the-Age-of-Agents-e3m9i24"
+brand_text = "Alexa's Input"
+brand_color = "#9e0402"
+
+[[talk]]
+slug = "2026-04-logicast-aws-news"
+title = "Lambda's Long Game, Claude's Complexity, and the AI Adoption Gap"
+venue = "LogiCast, Season 5 Episode 16"
+date = 2026-04-29
+kind = "podcast"
+url = "https://logicast.podbean.com/e/season-5-episode-16-lambdas-long-game-claudes-complexity-and-the-ai-adoption-gap/"
+brand_text = "LogiCast"
+brand_color = "#b45309"
+
+[[talk]]
+slug = "2025-12-software-plaza-docs"
+title = "Shaping the Future of Documentation. OSS, Knowledge, and Dosu"
+venue = "Software Plaza"
+date = 2025-12-05
+kind = "podcast"
+url = "https://www.youtube.com/watch?v=h7XLE_taVN4"
+youtube = "h7XLE_taVN4"
+youtube_thumb = "hqdefault"
+
+[[talk]]
 slug = "2025-11-missing-manual"
 title = "The Missing Manual for Open Source Community Sustainability"
 venue = "KubeCon + CloudNativeCon North America, Atlanta"
