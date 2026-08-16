@@ -1,0 +1,20 @@
+version: 2
+
+# Keeps GitHub Actions current, including the SHA-pinned ones in
+# pullfrog.yml. Pullfrog's post: cleanup step is frozen at whatever
+# commit the action is pinned to, so a bare SHA with no updater
+# eventually breaks runs after the agent has already done its work.
+# See https://docs.pullfrog.com/versioning.
+#
+# Grouped so this is at most one PR a week, not one per action.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: ci
