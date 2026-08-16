@@ -6,7 +6,31 @@
     <description>Talks, keynotes, panels, and podcast appearances by Taylor Dolezal.</description>
     <atom:link href="https://onlydole.dev/feeds/talks.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Nov 2025 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 12:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Paying Attention in the Age of Agents</title>
+      <link>https://podcasters.spotify.com/pod/show/alexagriffith/episodes/Paying-Attention-in-the-Age-of-Agents-e3m9i24</link>
+      <description>Alexa's Input (AI), panel episode</description>
+      <category>podcast</category>
+      <pubDate>Mon, 20 Jul 2026 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2026-07-alexas-input-agents</guid>
+    </item>
+    <item>
+      <title>Lambda's Long Game, Claude's Complexity, and the AI Adoption Gap</title>
+      <link>https://logicast.podbean.com/e/season-5-episode-16-lambdas-long-game-claudes-complexity-and-the-ai-adoption-gap/</link>
+      <description>LogiCast, Season 5 Episode 16</description>
+      <category>podcast</category>
+      <pubDate>Wed, 29 Apr 2026 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2026-04-logicast-aws-news</guid>
+    </item>
+    <item>
+      <title>Shaping the Future of Documentation. OSS, Knowledge, and Dosu</title>
+      <link>https://www.youtube.com/watch?v=h7XLE_taVN4</link>
+      <description>Software Plaza</description>
+      <category>podcast</category>
+      <pubDate>Fri, 05 Dec 2025 12:00:00 +0000</pubDate>
+      <guid isPermaLink="false">https://onlydole.dev/talks/2025-12-software-plaza-docs</guid>
+    </item>
     <item>
       <title>The Missing Manual for Open Source Community Sustainability</title>
       <link>https://youtu.be/FPQB7hQL4Vw</link>
