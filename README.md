@@ -32,6 +32,18 @@ generated into the page and an RSS feed by one stdlib-only Python script.
 
 Open `index.html` in a browser. No build step required.
 
+### Amp orbs
+
+`.agents/setup` prepares Python 3.12 (matching CI) in `.venv` using the
+orb's preinstalled `uv`, then checks the generated content. There are no
+third-party Python packages, Node dependencies, or required secrets.
+Installed Python and the environment are reusable in orb snapshots;
+`.agents/resume` only verifies that the environment is ready.
+
+Use `.venv/bin/python scripts/build_feeds.py --check` for validation, or
+`.venv/bin/python scripts/build_feeds.py` to regenerate content. Neither
+command requires activating a shell environment.
+
 ## Talks data and feeds
 
 `data/talks.toml` is the single source of truth for speaking appearances.
