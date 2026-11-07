@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 1
 
       - name: Run agent
-        uses: pullfrog/pullfrog@d46191b27741017dfac20431107fb3c6588ca667 # v0.1.92
+        uses: pullfrog/pullfrog@bef4f79cef8c9793608ef50179bae9e925231e38 # v0.1.114
         with:
           prompt: ${{ inputs.prompt }}
           model: openai-compatible/byok
