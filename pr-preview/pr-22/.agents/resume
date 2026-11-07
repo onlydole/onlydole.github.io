@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# No services or authentication to restore. Never install during resume.
+.venv/bin/python -c 'import sys, tomllib; assert sys.version_info[:2] == (3, 12); print("Orb Python 3.12 ready")'
