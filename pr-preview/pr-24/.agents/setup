@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# uv is included in the Amp orb image. Match the Python minor version in CI.
+echo 'Preparing Python 3.12 (stdlib only; no packages to install)'
+time uv python install 3.12
+time uv venv --python 3.12 --allow-existing .venv
+
+echo 'Checking generated site content'
+time .venv/bin/python scripts/build_feeds.py --check
